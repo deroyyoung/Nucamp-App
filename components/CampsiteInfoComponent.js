@@ -19,7 +19,7 @@ function RenderCampsite(props) {
         return (
             <Card
                 featuredTitle={campsite.name}
-                image={{uri: baseUrl + item.image}}
+                image={{uri: baseUrl + campsite.image}}
             >
                 <Text 
                     style={{ margin: 10 }}>

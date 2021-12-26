@@ -18,7 +18,7 @@ import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '.
 const mapDispatchToProps = {
     fetchCampsites,
     fetchComments,
-    fetchPartners,
+    fetchPromotions,
     fetchPartners
 }
 
