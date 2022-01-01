@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Animated} from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Card } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from './LoadingComponent';
+import * as Animatable from 'react-native-animatable'
 
 const mapStateToProps = state => {
     return {
@@ -28,14 +29,16 @@ function RenderItem(props) {
     }
     if (item) {
         return (
-            <Card
-                featuredTitle={item.name}
-                image={{uri: baseUrl + item.image}}
-            >
-                <Text style={{margin: 10}}>
-                    {item.description}
-                </Text>
-            </Card>
+            <Animatable.View animation='fadeInLeft' duration={1000}>
+                <Card
+                    featuredTitle={item.name}
+                    image={{uri: baseUrl + item.image}}
+                >
+                    <Text style={{margin: 10}}>
+                        {item.description}
+                    </Text>
+                </Card>
+            </Animatable.View>
         );
     }
     return <View />;
@@ -43,27 +46,6 @@ function RenderItem(props) {
 
 class Home extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            scaleValue: new Animated.Value(0)
-        };
-    }
-
-    animate() {
-        Animated.timing(
-            this.state.scaleValue,
-            {
-                toValue: 1,
-                duration: 1000,
-                useNativeDriver: true
-            }
-        ).start();
-    }
-
-    componentDidMount() {
-        this.animate();
-    }
     
     static navigationOptions = {
         title: 'Home'
@@ -71,7 +53,7 @@ class Home extends Component {
 
     render() {
         return (
-            <Animated.ScrollView style={{transform: [{scale: this.state.scaleValue}]}}> 
+            <ScrollView> 
                 <RenderItem
                     item={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
                     isLoading={this.props.campsites.isLoading}
@@ -87,7 +69,7 @@ class Home extends Component {
                     isLoading={this.props.partners.isLoading}
                     errMess={this.props.partners.errMess}
                 />
-            </Animated.ScrollView>
+            </ScrollView>
         );
     }
 }
