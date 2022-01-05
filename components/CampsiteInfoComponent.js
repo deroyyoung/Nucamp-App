@@ -3,7 +3,7 @@ import { Text, View, ScrollView, FlatList, Modal, Button, StyleSheet, Alert, Pan
 import { Card, Icon, Input, Rating } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { postFavorite, postComment } from '../redux/ActionCreators';
-import * as Animatable from 'react-native-animatable'
+import * as Animatable from 'react-native-animatable';
 
 
 const mapStateToProps = state => {
@@ -26,6 +26,8 @@ function RenderCampsite(props) {
     const view = React.createRef();
 
     const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+
+    const recognizeComment = ({dx}) => (dx > 200) ? true : false;
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder:  () => true,
@@ -52,10 +54,17 @@ function RenderCampsite(props) {
                     ],
                     { cancelable: false }
                 )
+            } else if (recognizeComment(gestureState)) { 
+                 props.onShowModal();
             }
+                
+
+            
             return true;
         }
     })
+
+    
 
     if (campsite) {
         return (
@@ -179,6 +188,7 @@ class CampsiteInfo extends Component {
                 />
                 <RenderComments comments={comments} />
                 <Modal
+                    
                     animationType={'slide'}
                     transparent={false}
                     visible={this.state.showModal}
